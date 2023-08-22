@@ -17,35 +17,38 @@ const CustomUl = styled.ul`
   list-style-type: none;
 `;
 
-const CustomLi = styled.li`
-  
-`;
-
 const CustomClickableLi = styled.li`
+  list-style-type: '🔽';
+  color: black;
+  cursor: arrow;
   :hover: {
     color: blue;
     cursor: pointer;
   }
 `;
 
-export const Branch = ({ territory, level }: BranchProps) => {
+const Branch = ({ territory, level }: BranchProps) => {
+  
   const [selected, setSelected] = useState(false);
   const newLevel = level + 1;
+
   return (
     <CustomUl>
       {
         territory.children && territory.children.length !== 0
         ?
         <>
-          <CustomClickableLi onClick={() => setSelected(true)}>v {territory.name}</CustomClickableLi>
+          <CustomClickableLi onClick={() => setSelected(true)}>{territory.name}</CustomClickableLi>
           {
             selected && territory.children.map((child: ChildrenTerritory) =>
               <Branch key={child.id} territory={child} level={newLevel} />
             )
           }
         </> 
-        : <CustomLi>{territory.name}</CustomLi>
+        : <li>{territory.name}</li>
       }
     </CustomUl>
   )
 };
+
+export default Branch;
