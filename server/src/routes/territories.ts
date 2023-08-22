@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-
+import { unflatten } from '../helpers/unflatten.js';
 const territories = express.Router();
 
 territories.get('/territories', async (req: Request, res: Response) => {
@@ -9,7 +9,10 @@ territories.get('/territories', async (req: Request, res: Response) => {
     
     const result = await response.json();
 
-    return res.status(200).json(result);
+    // we need to rearrange the result
+    const newResult = unflatten(result.data);
+
+    return res.status(200).json(newResult);
 
   } catch (err) {
     return res.status(500).json({error: 'Server error.'});
