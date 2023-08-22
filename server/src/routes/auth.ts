@@ -1,14 +1,14 @@
 import express, { Request, Response } from 'express';
+import validateLogin from '../middlewares/validateLogin.js';
 
 const auth = express.Router();
 
 // login user using an external api
-auth.post('/login', async (req: Request, res: Response) => {
-
+auth.post('/login', 
+  validateLogin,
+  async (req: Request, res: Response) => {
   try {
 
-    console.log(req.body);
-    
     const response = await fetch('https://netzwelt-devtest.azurewebsites.net/Account/SignIn', {
       method: "POST",
       headers: {
