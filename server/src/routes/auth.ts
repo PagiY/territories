@@ -7,6 +7,8 @@ auth.post('/login', async (req: Request, res: Response) => {
 
   try {
 
+    console.log(req.body);
+    
     const response = await fetch('https://netzwelt-devtest.azurewebsites.net/Account/SignIn', {
       method: "POST",
       headers: {

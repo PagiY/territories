@@ -7,4 +7,27 @@ content-type: application/json
 }
 
 ###
+
 GET https://netzwelt-devtest.azurewebsites.net/Territories/All
+
+###
+
+POST http://localhost:8000/api/login
+content-type: application/json
+
+{
+  "username": "foo",
+  "password": "bar"
+}
+
+###
+POST http://localhost:8000/api/login
+content-type: application/json
+
+{
+  "username": "foooooo",
+  "password": "barrrrr"
+}
+
+###
+GET http://localhost:8000/api/territories
