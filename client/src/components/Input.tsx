@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 
 const CustomInput = styled.input`
-  color: red
 `;
 
 type InputProps = {

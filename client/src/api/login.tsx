@@ -13,5 +13,9 @@ export const login = async (data: LoginData) => {
     body: JSON.stringify(data),
   });
 
-  return await response.json();
+  if (response.status === 401) {
+    return false;
+  } else {
+    return await response.json();
+  }
 };

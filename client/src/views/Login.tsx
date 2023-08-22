@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import Button from '../components/Button';
 import Input from '../components/Input';
+import ErrorText from '../components/ErrorText';
 
 import { login } from '../api/login';
 
@@ -14,6 +15,7 @@ export const Login = () => {
   const [errors, setErrors] = useState({
     username: '',
     password: '',
+    failedLogin: '',
   });
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,12 +66,35 @@ export const Login = () => {
     }
 
     // api call to login
-    login(form);
+    login(form)
+      .then((data) => {
+        if (!data) {
+          setErrors((prev) => {
+            return {
+              ...prev,
+              failedLogin: 'Login Failed',
+            }
+          });
+
+          // make error disappear after 5 seconds
+          setTimeout(() => {
+            setErrors({
+              ...errors,
+              failedLogin: '',
+            });
+          }, 5000);
+
+        } else {
+          console.log(data);
+        }
+
+      });
     
   };
 
   return (
     <div>
+      <ErrorText errorMessage={errors.failedLogin} />
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">
           Username:
@@ -81,8 +106,7 @@ export const Login = () => {
             onChange={handleFormChange}
           />
         </label>
-        {errors.username}
-        <br />
+        <ErrorText errorMessage={errors.username} />
         <label htmlFor="password">
           Password:
           {' '}
@@ -93,7 +117,7 @@ export const Login = () => {
             onChange={handleFormChange}
           />
         </label>
-        {errors.password}
+        <ErrorText errorMessage={errors.password} />
         <Button 
           type="submit"
           text="Login"
