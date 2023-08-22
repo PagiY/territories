@@ -20,15 +20,15 @@ const CustomButton = styled.button`
 `;
 
 type ButtonProps = {
-  text: string,
+  children: React.ReactNode,
   type: "button" | "submit" | "reset" | undefined,
 }
 const Button = ({
-  text,
+  children,
   type,
 }: ButtonProps) => (
   <CustomButton type={type}>
-    {text}
+    {children}
   </CustomButton>
 )
 

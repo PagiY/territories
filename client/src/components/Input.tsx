@@ -12,7 +12,7 @@ const CustomInput = styled.input`
   border: 1px solid #e1e4e8;
   border-radius: 6px;
   outline: none;
-  width: 100%;
+  width: 90%;
   box-shadow: rgba(225, 228, 232, 0.2) 0px 1px 0px 0px inset;
   :focus{
       border-color: #0366d6;

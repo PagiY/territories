@@ -18,6 +18,14 @@ const CustomDiv = styled.div`
   padding: 15px;
   width: 50vh;
   background-color: white;
+  border-radius: 5%;
+`;
+
+const CustomContainer = styled.div`
+  width: 100%;
+  min-height: 95vh;
+  display: flex;
+  justify-content: center;
 `;
 
 export const Home = () => {
@@ -41,14 +49,16 @@ export const Home = () => {
   };
 
   return (
-    <CustomDiv>
-      <h1>Territories</h1>
-      <h4>Here are the list of territories:</h4>
-      {
-        territories === null
-          ? <Loader />
-          : generateTree()
-      }
-    </CustomDiv>
+    <CustomContainer>
+      <CustomDiv>
+        <h1>Territories</h1>
+        <h4>Here are the list of territories:</h4>
+        {
+          territories === null
+            ? <Loader />
+            : generateTree()
+        }
+      </CustomDiv>
+    </CustomContainer>
   )
 };

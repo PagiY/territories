@@ -13,16 +13,25 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 
 
-const CustomForm = styled.div`
-  box-shadow: rgba(0, 0, 0, 0.075) 0px 2px 4px 0px;
-  padding: 20px;
-  width: 50vh;
-  height: 30vh;
+const CustomDiv = styled.div`
+  width: 100%;
+  height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
 `;
+
+const CustomForm = styled.form`
+  box-shadow: rgba(0, 0, 0, 0.075) 0px 2px 4px 0px;
+  padding: 20px;
+  width: 40vh;
+  height: 30vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5%;
+`
 
 export const Login = () => {
   const { auth, setAuth } = useContext(AuthContext);
@@ -129,8 +138,8 @@ export const Login = () => {
   };
 
   return (
-    <CustomForm>
-      <form onSubmit={handleSubmit}>
+    <CustomDiv>
+      <CustomForm onSubmit={handleSubmit}>
         <ErrorText errorMessage={errors.failedLogin} />
         <label htmlFor="username">
           Username:
@@ -156,15 +165,16 @@ export const Login = () => {
         </label>
         <ErrorText errorMessage={errors.password} />
         <br />
-        {
-          loginStatus === ''
-           ? <Button 
-              type="submit"
-              text="Login"
-            />
-           : <Loader />
-        }
-      </form>
-    </CustomForm>
+        <Button 
+          type="submit"
+        >
+          {
+            loginStatus === ''
+            ? <span>Login</span>
+            : <Loader />
+          }
+        </Button>
+      </CustomForm>
+    </CustomDiv>
   );
 };
