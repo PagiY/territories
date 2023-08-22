@@ -1,16 +1,45 @@
-import { useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
+
+import styled from '@emotion/styled';
 
 import Button from '../components/Button';
 import Input from '../components/Input';
 import ErrorText from '../components/ErrorText';
+import Loader from '../components/Loader';
 
 import { login } from '../api/login';
+import { useNavigate } from 'react-router-dom';
+
+import { AuthContext } from '../contexts/AuthContext';
+
+
+const CustomForm = styled.div`
+  box-shadow: rgba(0, 0, 0, 0.075) 0px 2px 4px 0px;
+  padding: 20px;
+  width: 50vh;
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+`;
 
 export const Login = () => {
+  const { auth, setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (auth) {
+      navigate('/');
+    }
+  }, [auth, navigate]);
+
   const [form, setForm] = useState({
     username: '',
     password: '',
   });
+
+  const [loginStatus, setLoginStatus] = useState<'' | 'loading' | 'success'>('');
 
   const [errors, setErrors] = useState({
     username: '',
@@ -33,6 +62,8 @@ export const Login = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setLoginStatus(() => 'loading');
 
     // flag check for error
     let error = false;
@@ -62,17 +93,19 @@ export const Login = () => {
     // do not continue code below if error flag is true
     if (error) {
       error = false;
+      setLoginStatus(() => '');
       return;
     }
 
     // api call to login
     login(form)
       .then((data) => {
+        setLoginStatus(() => '');
         if (!data) {
           setErrors((prev) => {
             return {
               ...prev,
-              failedLogin: 'Login Failed',
+              failedLogin: 'Login Failed! Invalid username or password.',
             }
           });
 
@@ -85,17 +118,20 @@ export const Login = () => {
           }, 5000);
 
         } else {
-          console.log(data);
+          // Kept it simple and use sessionStorage for logging in user
+          window.sessionStorage.setItem('user', JSON.stringify(data));
+          setAuth(data);
+          navigate('/');
         }
 
       });
-    
+
   };
 
   return (
-    <div>
-      <ErrorText errorMessage={errors.failedLogin} />
+    <CustomForm>
       <form onSubmit={handleSubmit}>
+        <ErrorText errorMessage={errors.failedLogin} />
         <label htmlFor="username">
           Username:
           {' '}
@@ -107,6 +143,7 @@ export const Login = () => {
           />
         </label>
         <ErrorText errorMessage={errors.username} />
+        <br />
         <label htmlFor="password">
           Password:
           {' '}
@@ -118,11 +155,16 @@ export const Login = () => {
           />
         </label>
         <ErrorText errorMessage={errors.password} />
-        <Button 
-          type="submit"
-          text="Login"
-        />
+        <br />
+        {
+          loginStatus === ''
+           ? <Button 
+              type="submit"
+              text="Login"
+            />
+           : <Loader />
+        }
       </form>
-    </div>
+    </CustomForm>
   );
 };

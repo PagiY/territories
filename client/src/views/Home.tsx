@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
+import styled from '@emotion/styled';
 
-import { Branch } from '../components/Branch';
+import Loader from '../components/Loader';
+import Branch from '../components/Branch';
 
 import { getTerritories } from '../api/getTerritories';
 
@@ -11,16 +13,22 @@ type ChildrenTerritory = {
   children: ChildrenTerritory[],
 };
 
+const CustomDiv = styled.div`
+  box-shadow: rgba(0, 0, 0, 0.075) 0px 2px 4px 0px;
+  padding: 15px;
+  width: 50vh;
+  background-color: white;
+`;
+
 export const Home = () => {
   const [territories, setTerritories] = useState<ChildrenTerritory[] | null>(null);
 
   // get territories data from api
+  // GET: /territories/all
   useEffect(() => {
     getTerritories()
       .then((data) => setTerritories(data.children));
   }, [setTerritories]);
-  
-  console.log(territories);
 
   const generateTree = () => {
     return (
@@ -33,13 +41,14 @@ export const Home = () => {
   };
 
   return (
-    <>
+    <CustomDiv>
       <h1>Territories</h1>
+      <h4>Here are the list of territories:</h4>
       {
         territories === null
-          ? <p>Loading...</p>
+          ? <Loader />
           : generateTree()
       }
-    </>
+    </CustomDiv>
   )
 };
