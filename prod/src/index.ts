@@ -20,13 +20,13 @@ app.use(express.static(path.join(__dirname, '../build')));
 app.use(cors());
 app.use(express.json());
 
+app.use('/api', auth);
+app.use('/api', territories);
+
 // wildcard route for any access to the site
 app.get('*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../build/index.html'))
 });
-
-app.use('/api', auth);
-app.use('/api', territories);
 
 const PORT = process.env.PORT || 3001;
 
