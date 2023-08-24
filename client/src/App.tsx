@@ -31,7 +31,7 @@ export const App = () => {
     displayName: string,
     roles: string[] } | undefined>(undefined);
   
-  // checks if user is logged in. If user is logged in, redirect to /account/login or
+  // checks if user is logged in. If user is not logged in, redirect to /account/login or
   // the login page
   useEffect(() => {
     const user = window.sessionStorage.getItem('user');

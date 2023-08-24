@@ -12,7 +12,7 @@ const Protected = ({ children } : { children: React.ReactNode }) => {
   
   useEffect(() => {
     if (auth === undefined) {
-      navigate('/account/login');
+      navigate('/account/login'); // Redirect to /account/login
     }
   }, [navigate, auth]);
 
