@@ -23,3 +23,10 @@ npm run build
 ```
 npm run preview
 ```
+
+## How to Build for Production:
+1. In client folder, type `npm run build` to create a build file. This outputs a `dist` folder.
+2. In server folder, transpile to js files using `npm run build` command. This outputs a `dist` folder.
+3. Since both folders for client and server are named `dist`, create a `build` folder for the client and paste the contents of the client `dist` to the newly created `build` folder.
+4. Ensure everything is working (manual testing 😢)
+5. Type `fly deploy` to deploy app.
